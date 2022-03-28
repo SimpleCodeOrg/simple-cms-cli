@@ -1,5 +1,5 @@
 {
-  "name": "@simple/cms-cli",
+  "name": "@simple.code/cms-cli",
   "version": "0.0.2",
   "description": "> TODO: description",
   "author": "戴鹏鹏 <pengpeng.dai@china.zhaogang.com>",
@@ -22,5 +22,5 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
-  "gitHead": "6504ea788f591446007a4c4bc4785cc4fbac8709"
+  "gitHead": "08dc1144706bfb86826db9ce5e8fd6c02ccd9f6d"
 }
