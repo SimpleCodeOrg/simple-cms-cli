@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-console.log('simple cms cli start');
+const cli = require('../lib');
+
+cli();
