@@ -1,5 +1,5 @@
 {
-  "name": "@simple.code/cms-cli-npm",
+  "name": "@simple.code/cms-cli-init",
   "version": "0.0.3",
   "description": "> TODO: description",
   "author": "戴鹏鹏 <pengpeng.dai@china.zhaogang.com>",
@@ -25,10 +25,5 @@
   },
   "bugs": {
     "url": "https://github.com/SimpleCodeOrg/simple-cms-cli/issues"
-  },
-  "dependencies": {
-    "@simple.code/cms-cli-log": "file:../log",
-    "@simple.code/cms-cli-request": "file:../request",
-    "semver": "^7.3.7"
   }
 }

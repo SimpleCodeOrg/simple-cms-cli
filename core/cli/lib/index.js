@@ -1,15 +1,21 @@
 const log = require('@simple.code/cms-cli-log');
 const colors = require('@simple.code/cms-cli-colors');
 const { pathExists } = require('@simple.code/cms-cli-utils');
-const { getNpmInfo } = require('@simple.code/cms-cli-npm');
+const { getSemverLatestVersion } = require('@simple.code/cms-cli-npm');
 
+const path = require('path');
 const rootCheck = require('root-check');
 const userHome = require('user-home');
+const dotenv = require('dotenv');
+const commander = require('commander');
 
 const pkg = require('../package.json');
+const constants = require('./const');
+
+const program = new commander.Command();
 
 function checkPkgVersion() {
-  log.info('当前版本:', pkg.version);
+  log.success('欢迎使用 simple-cms-cli～');
 }
 
 function checkRoot() {
@@ -22,11 +28,57 @@ function checkUserHome() {
   }
 }
 
+// 读取环境变量
+function checkEnv() {
+  const dotenvPath = path.resolve(userHome, '.env');
+  if (pathExists(dotenvPath)) {
+    dotenv.config({
+      path: dotenvPath,
+    });
+  }
+}
+
+/**
+ * 校验 CLI_HOME_PATH
+ */
+function checkHomePath() {
+  // 用户通过 SIMPLE_CMS_CLI_HOME=xxx 改变
+  if (!process.env.SIMPLE_CMS_CLI_HOME) {
+    process.env.SIMPLE_CMS_CLI_HOME = constants.DEFAULT_CLI_HOME;
+  }
+  process.env.SIMPLE_CMS_CLI_HOME_PATH = path.join(userHome, process.env.SIMPLE_CMS_CLI_HOME);
+}
+
 async function checkGlobalUpdate() {
-  // const currentVersion = pkg.version;
+  const currentVersion = pkg.version || '0.0.0';
   const npmName = pkg.name;
-  const versions = await getNpmInfo(npmName);
-  console.log(versions);
+  const gtLatestVersion = await getSemverLatestVersion(npmName, currentVersion);
+  if (gtLatestVersion) {
+    log.warn(`请手动更新 ${npmName}， 当前版本号：${currentVersion}，最新版本号：${gtLatestVersion}`);
+    log.info('执行 npm install -g @simple.code/cms-cli 更新');
+    throw new Error();
+  }
+}
+
+function registerCommand() {
+  program
+    .name('simple-cms-cli')
+    .usage('<command> [options]')
+    .version(pkg.version)
+    .option('-d, --debug', '是否开始调试模式', false)
+    .option('-tp, --targetPath <targetPath>', '是否指定本地调试文件路径', '');
+
+  // 开启debug
+  program.on('option:debug', () => {
+    if (program.opts().debug) {
+      process.env.LOG_LEVEL = 'verbose';
+    } else {
+      process.env.LOG_LEVEL = 'info';
+    }
+    log.level = process.env.LOG_LEVEL;
+  });
+
+  program.parse(process.argv);
 }
 
 async function core() {
@@ -34,7 +86,10 @@ async function core() {
     checkPkgVersion();
     checkRoot();
     checkUserHome();
+    checkEnv();
+    checkHomePath();
     await checkGlobalUpdate();
+    registerCommand();
   } catch (error) {
     log.error(error.message);
   }

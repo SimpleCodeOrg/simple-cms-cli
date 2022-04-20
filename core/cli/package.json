@@ -24,10 +24,13 @@
   },
   "gitHead": "08dc1144706bfb86826db9ce5e8fd6c02ccd9f6d",
   "dependencies": {
-    "@simple.code/cms-cli-log": "file:../../utils/log",
     "@simple.code/cms-cli-colors": "file:../../utils/colors",
-    "@simple.code/cms-cli-utils": "file:../../utils/utils",
+    "@simple.code/cms-cli-log": "file:../../utils/log",
     "@simple.code/cms-cli-npm": "file:../../utils/npm",
+    "@simple.code/cms-cli-utils": "file:../../utils/utils",
+    "commander": "^9.2.0",
+    "dotenv": "^16.0.0",
+    "import-local": "^3.1.0",
     "root-check": "^1.0.0",
     "user-home": "^3.0.0"
   }
