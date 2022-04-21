@@ -2,6 +2,7 @@ const log = require('@simple.code/cms-cli-log');
 const colors = require('@simple.code/cms-cli-colors');
 const { pathExists } = require('@simple.code/cms-cli-utils');
 const { getSemverLatestVersion } = require('@simple.code/cms-cli-npm');
+const init = require('@simple.code/cms-cli-init');
 
 const path = require('path');
 const rootCheck = require('root-check');
@@ -66,7 +67,13 @@ function registerCommand() {
     .usage('<command> [options]')
     .version(pkg.version)
     .option('-d, --debug', '是否开始调试模式', false)
-    .option('-tp, --targetPath <targetPath>', '是否指定本地调试文件路径', '');
+    .option('-ap, --actionPath <actionPath>', '是否指定本地调试文件路径', '');
+
+  program
+    .command('init [projectName]')
+    .option('-f, --force', '是否强制初始化项目')
+    .option('-t, --test', '是否强制初始化项目')
+    .action(init);
 
   // 开启debug
   program.on('option:debug', () => {
@@ -76,6 +83,12 @@ function registerCommand() {
       process.env.LOG_LEVEL = 'info';
     }
     log.level = process.env.LOG_LEVEL;
+  });
+
+  // 监听 actionPath
+  program.on('option:actionPath', () => {
+    const { actionPath } = program.opts() || {};
+    process.env.CLI_COMMAND_ACTION_PATH = actionPath;
   });
 
   program.parse(process.argv);
