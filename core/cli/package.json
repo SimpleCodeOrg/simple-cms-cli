@@ -28,7 +28,7 @@
     "@simple.code/cms-cli-log": "file:../../utils/log",
     "@simple.code/cms-cli-npm": "file:../../utils/npm",
     "@simple.code/cms-cli-utils": "file:../../utils/utils",
-    "@simple.code/cms-cli-init": "file:../../commands/init",
+    "@simple.code/cms-cli-exec": "file:../exec",
     "commander": "^9.2.0",
     "dotenv": "^16.0.0",
     "import-local": "^3.1.0",

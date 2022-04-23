@@ -2,7 +2,7 @@ const log = require('@simple.code/cms-cli-log');
 const colors = require('@simple.code/cms-cli-colors');
 const { pathExists } = require('@simple.code/cms-cli-utils');
 const { getSemverLatestVersion } = require('@simple.code/cms-cli-npm');
-const init = require('@simple.code/cms-cli-init');
+const exec = require('@simple.code/cms-cli-exec');
 
 const path = require('path');
 const rootCheck = require('root-check');
@@ -47,7 +47,7 @@ function checkHomePath() {
   if (!process.env.SIMPLE_CMS_CLI_HOME) {
     process.env.SIMPLE_CMS_CLI_HOME = constants.DEFAULT_CLI_HOME;
   }
-  process.env.SIMPLE_CMS_CLI_HOME_PATH = path.join(userHome, process.env.SIMPLE_CMS_CLI_HOME);
+  process.env.CLI_HOME_PATH = path.join(userHome, process.env.SIMPLE_CMS_CLI_HOME);
 }
 
 async function checkGlobalUpdate() {
@@ -73,7 +73,7 @@ function registerCommand() {
     .command('init [projectName]')
     .option('-f, --force', '是否强制初始化项目')
     .option('-t, --test', '是否强制初始化项目')
-    .action(init);
+    .action(exec);
 
   // 开启debug
   program.on('option:debug', () => {
