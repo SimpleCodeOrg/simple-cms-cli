@@ -1,6 +1,6 @@
 {
   "name": "@simple.code/cms-cli-exec",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "> TODO: description",
   "author": "戴鹏鹏 <pengpeng.dai@china.zhaogang.com>",
   "homepage": "https://github.com/SimpleCodeOrg/simple-cms-cli#readme",
@@ -27,8 +27,8 @@
     "url": "https://github.com/SimpleCodeOrg/simple-cms-cli/issues"
   },
   "dependencies": {
+    "@simple.code/cms-cli-log": "file:../../utils/log",
     "@simple.code/cms-cli-package": "file:../../models/package",
-    "@simple.code/cms-cli-utils": "file:../../utils/utils",
-    "@simple.code/cms-cli-log": "file:../../utils/log"
+    "@simple.code/cms-cli-utils": "file:../../utils/utils"
   }
 }
