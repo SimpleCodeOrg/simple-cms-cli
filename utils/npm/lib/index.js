@@ -13,13 +13,13 @@ function getDefaultRegistry(isOriginal = true) {
  * @param {*} npmName
  * @returns
  */
-async function getNpmInfo(npmName) {
+async function getNpmInfo(npmName, registry) {
   if (!npmName) {
     throw new Error('npmName 不能为空！');
   }
 
   try {
-    const data = await request.get(`${getDefaultRegistry()}/${npmName}`);
+    const data = await request.get(`${getDefaultRegistry(registry)}/${npmName}`);
     return data;
   } catch (error) {
     throw new Error(`获取${npmName}版本信息失败`);
@@ -30,8 +30,8 @@ async function getNpmInfo(npmName) {
  * 获取 npm 包 version list
  * @returns
  */
-async function getNpmVersionList(npmName) {
-  const data = await getNpmInfo(npmName);
+async function getNpmVersionList(npmName, registry) {
+  const data = await getNpmInfo(npmName, registry);
   if (data) {
     return Object.keys(data.versions);
   }
@@ -59,9 +59,20 @@ async function getSemverLatestVersion(npmName, baseVersion) {
   return gtVersions[0] || '';
 }
 
+async function getNpmLatestVersion(npmName, registry) {
+  let versions = await getNpmVersionList(npmName, registry);
+  if (versions) {
+    versions = versions.sort((a, b) => (semver.gt(b, a) ? 1 : -1));
+    return versions[0];
+  }
+  return null;
+}
+
 module.exports = {
+  getDefaultRegistry,
   getNpmInfo,
   getNpmVersionList,
   getSemverSatisfiesVersions,
   getSemverLatestVersion,
+  getNpmLatestVersion,
 };

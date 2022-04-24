@@ -31,10 +31,12 @@ async function exec(...argv) {
       packageName,
       packageVersion,
     });
+
     if (await pkg.exits()) {
       // 判断是否要更新
+      await pkg.update();
     } else {
-      // install package
+      await pkg.install();
     }
   } else {
     pkg = new Package({
@@ -46,6 +48,7 @@ async function exec(...argv) {
   }
 
   const rootFile = pkg.getRootFilePath();
+  log.verbose(rootFile);
   if (rootFile) {
     try {
       const code = `require('${rootFile}').apply(null, ${JSON.stringify(argv.slice(0, argv.length - 1))})`;

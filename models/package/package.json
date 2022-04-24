@@ -27,7 +27,11 @@
     "url": "https://github.com/SimpleCodeOrg/simple-cms-cli/issues"
   },
   "dependencies": {
+    "@simple.code/cms-cli-npm": "file:../../utils/npm",
     "@simple.code/cms-cli-utils": "file:../../utils/utils",
+    "@simple.code/cms-cli-log": "file:../../utils/log",
+    "fs-extra": "^10.1.0",
+    "npminstall": "^6.1.0",
     "pkg-dir": "^5.0.0"
   }
 }
