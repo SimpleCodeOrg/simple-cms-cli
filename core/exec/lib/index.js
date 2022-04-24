@@ -17,13 +17,19 @@ async function exec(...argv) {
 
   const cmdObj = argv[argv.length - 1];
   const cmdName = cmdObj.name();
-  const packageName = CommandConfig[cmdName];
   const packageVersion = 'latest';
+  let packageName = CommandConfig[cmdName];
+
+  if (process.env.CLI_COMMAND_ACTION_PACKAGE) {
+    packageName = process.env.CLI_COMMAND_ACTION_PACKAGE;
+  }
+
   let pkg = null;
 
   if (!actionPath) {
     actionPath = path.resolve(homePath, CACHE_DIR);
     storePath = path.resolve(actionPath, 'node_modules');
+    log.verbose(packageName);
 
     pkg = new Package({
       rootPath: actionPath,
@@ -32,11 +38,15 @@ async function exec(...argv) {
       packageVersion,
     });
 
-    if (await pkg.exits()) {
-      // 判断是否要更新
-      await pkg.update();
-    } else {
-      await pkg.install();
+    try {
+      if (await pkg.exits()) {
+        // 判断是否要更新
+        await pkg.update();
+      } else {
+        await pkg.install();
+      }
+    } catch (error) {
+      log.error(error);
     }
   } else {
     pkg = new Package({
@@ -48,7 +58,7 @@ async function exec(...argv) {
   }
 
   const rootFile = pkg.getRootFilePath();
-  log.verbose(rootFile);
+  log.verbose('入口文件：', rootFile);
   if (rootFile) {
     try {
       const code = `require('${rootFile}').apply(null, ${JSON.stringify(argv.slice(0, argv.length - 1))})`;

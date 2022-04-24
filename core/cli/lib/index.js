@@ -67,7 +67,8 @@ function registerCommand() {
     .usage('<command> [options]')
     .version(pkg.version)
     .option('-d, --debug', '是否开始调试模式', false)
-    .option('-ap, --actionPath <actionPath>', '是否指定本地调试文件路径', '');
+    .option('-ap, --actionPath <actionPath>', '是否指定本地调试文件路径', '')
+    .option('-pkg, --packageName <packageName>', '指定执行某个 npm package', '');
 
   program
     .command('init [projectName]')
@@ -89,6 +90,11 @@ function registerCommand() {
   program.on('option:actionPath', () => {
     const { actionPath } = program.opts() || {};
     process.env.CLI_COMMAND_ACTION_PATH = actionPath;
+  });
+
+  program.on('option:packageName', () => {
+    const { packageName } = program.opts() || {};
+    process.env.CLI_COMMAND_ACTION_PACKAGE = packageName;
   });
 
   program.parse(process.argv);

@@ -4,7 +4,7 @@ const semver = require('semver');
 
 const request = createRequest({ baseURL: 'https://registry.npmjs.org/vue-cli' });
 
-function getDefaultRegistry(isOriginal = true) {
+function getDefaultRegistry(isOriginal = false) {
   return isOriginal ? 'https://registry.npmjs.org' : 'https://registry.npm.taobao.org';
 }
 
@@ -20,8 +20,15 @@ async function getNpmInfo(npmName, registry) {
 
   try {
     const data = await request.get(`${getDefaultRegistry(registry)}/${npmName}`);
-    return data;
+    if (data) {
+      return data;
+    }
+    return null;
   } catch (error) {
+    const { response = {} } = error;
+    if (response.status === 404) {
+      throw new Error(`${npmName} 包不存在`);
+    }
     throw new Error(`获取${npmName}版本信息失败`);
   }
 }

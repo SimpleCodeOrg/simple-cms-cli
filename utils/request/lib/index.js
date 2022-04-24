@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { error } = require('../../npm/node_modules/@simple.code/cms-cli-log/lib');
 
 function createRequest(config) {
   const { baseURL, timeout = 5000 } = config || {};
@@ -14,10 +13,7 @@ function createRequest(config) {
       }
       return null;
     },
-    () => {
-      throw new Error(error.message);
-    //   Promise.reject(error);
-    },
+    (error) => Promise.reject(error),
   );
 
   return request;
