@@ -1,6 +1,6 @@
 {
   "name": "@simple.code/cms-cli-package",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "> TODO: description",
   "author": "戴鹏鹏 <pengpeng.dai@china.zhaogang.com>",
   "homepage": "https://github.com/SimpleCodeOrg/simple-cms-cli#readme",
@@ -27,9 +27,9 @@
     "url": "https://github.com/SimpleCodeOrg/simple-cms-cli/issues"
   },
   "dependencies": {
+    "@simple.code/cms-cli-log": "file:../../utils/log",
     "@simple.code/cms-cli-npm": "file:../../utils/npm",
     "@simple.code/cms-cli-utils": "file:../../utils/utils",
-    "@simple.code/cms-cli-log": "file:../../utils/log",
     "fs-extra": "^10.1.0",
     "npminstall": "^6.1.0",
     "pkg-dir": "^5.0.0"
