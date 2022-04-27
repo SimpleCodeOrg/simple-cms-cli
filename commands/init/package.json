@@ -25,5 +25,19 @@
   },
   "bugs": {
     "url": "https://github.com/SimpleCodeOrg/simple-cms-cli/issues"
+  },
+  "dependencies": {
+    "@simple.code/cms-cli-command": "file:../../models/command",
+    "@simple.code/cms-cli-log": "file:../../utils/log",
+    "@simple.code/cms-cli-package": "file:../../models/package",
+    "@simple.code/cms-cli-request": "file:../../utils/request",
+    "@simple.code/cms-cli-utils": "file:../../utils/utils",
+    "ejs": "^3.1.6",
+    "fs-extra": "^10.0.1",
+    "glob": "^7.2.0",
+    "inquirer": "^8.2.2",
+    "kebab-case": "^1.0.1",
+    "semver": "^7.3.5",
+    "user-home": "^3.0.0"
   }
 }

@@ -1,5 +1,7 @@
+const fs = require('fs');
 const path = require('path');
 const childProcess = require('child_process');
+const Spinner = require('cli-spinner').Spinner;
 
 const pathExists = require('path-exists').sync;
 
@@ -38,10 +40,27 @@ function execAsync(command, args, options) {
   });
 }
 
+function checkDirEmpty(dirPath, ignore) {
+  let fileList = fs.readdirSync(dirPath);
+  if (ignore) {
+    fileList = fileList.filter(ignore);
+  }
+  return fileList.length === 0;
+}
+
+function spinnerStart(msg, spinnerString = '|/-\\') {
+  const spinner = new Spinner(`${msg}%s`);
+  spinner.setSpinnerString(spinnerString);
+  spinner.start();
+  return spinner;
+}
+
 module.exports = {
   isObject,
   pathExists,
   formatPath,
   execAsync,
   exec,
+  checkDirEmpty,
+  spinnerStart,
 };

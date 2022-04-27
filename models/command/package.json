@@ -1,5 +1,5 @@
 {
-  "name": "@simple.code/cms-cli-utils",
+  "name": "@simple.code/cms-cli-command",
   "version": "0.0.5",
   "description": "> TODO: description",
   "author": "戴鹏鹏 <pengpeng.dai@china.zhaogang.com>",
@@ -27,7 +27,8 @@
     "url": "https://github.com/SimpleCodeOrg/simple-cms-cli/issues"
   },
   "dependencies": {
-    "path-exists": "^4.0.0",
-    "cli-spinner": "^0.2.10"
+    "semver": "^7.3.7",
+    "@simple.code/cms-cli-colors": "file:../../utils/colors",
+    "@simple.code/cms-cli-log": "file:../../utils/log"
   }
 }
