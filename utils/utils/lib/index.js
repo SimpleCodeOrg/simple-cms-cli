@@ -55,6 +55,29 @@ function spinnerStart(msg, spinnerString = '|/-\\') {
   return spinner;
 }
 
+function readFile(filePath, options = {}) {
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+  const buffer = fs.readFileSync(filePath);
+  if (buffer) {
+    return options.toJson ? buffer.toJSON() : buffer.toString();
+  }
+  return null;
+}
+
+function writeFile(filePath, data, { rewrite = true } = {}) {
+  if (fs.existsSync(filePath)) {
+    if (rewrite) {
+      fs.writeFileSync(filePath, data);
+      return true;
+    }
+    return false;
+  }
+  fs.writeFileSync(filePath, data);
+  return true;
+}
+
 module.exports = {
   isObject,
   pathExists,
@@ -63,4 +86,6 @@ module.exports = {
   exec,
   checkDirEmpty,
   spinnerStart,
+  readFile,
+  writeFile,
 };

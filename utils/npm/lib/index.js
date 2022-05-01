@@ -2,7 +2,7 @@ const createRequest = require('@simple.code/cms-cli-request');
 const semver = require('semver');
 // const log = require('@simple.code/cms-cli-log');
 
-const request = createRequest({ baseURL: 'https://registry.npmjs.org/vue-cli' });
+const request = createRequest({ baseURL: '' });
 
 function getDefaultRegistry(isOriginal = false) {
   return isOriginal ? 'https://registry.npmjs.org' : 'https://registry.npm.taobao.org';
@@ -29,7 +29,7 @@ async function getNpmInfo(npmName, registry) {
     if (response.status === 404) {
       throw new Error(`${npmName} 包不存在`);
     }
-    throw new Error(`获取${npmName}版本信息失败`);
+    throw new Error(error.message || `获取${npmName}版本信息失败`);
   }
 }
 

@@ -61,6 +61,8 @@ async function exec(...argv) {
   log.verbose('入口文件：', rootFile);
   if (rootFile) {
     try {
+      // const cmd = argv[argv.length - 1];
+      // console.log(cmd.parent.opts());
       const code = `require('${rootFile}').apply(null, ${JSON.stringify(argv.slice(0, argv.length - 1))})`;
       const child = spawn('node', ['-e', code], {
         cwd: process.cwd(),

@@ -68,12 +68,19 @@ function registerCommand() {
     .version(pkg.version)
     .option('-d, --debug', '是否开始调试模式', false)
     .option('-ap, --actionPath <actionPath>', '是否指定本地调试文件路径', '')
-    .option('-pkg, --packageName <packageName>', '指定执行某个 npm package', '');
+    .option('-pkg, --packageName <packageName>', '指定执行某个 npm package', '')
+    .option('-cp, --customOption <customOption>', '自定义参数传入', ''); // [key]=[value],[key]=[value]
 
   program
     .command('init [projectName]')
     .option('-f, --force', '是否强制初始化项目')
-    .option('-t, --test', '是否强制初始化项目')
+    .action(exec);
+
+  program
+    .command('publish')
+    .option('--refreshServer', '是否强制更新远程仓库')
+    .option('--refreshToken', '是否强制更新仓库 token')
+    .option('--refreshOwner', '是否强制更新远程仓库类型')
     .action(exec);
 
   // 开启debug
@@ -97,7 +104,29 @@ function registerCommand() {
     process.env.CLI_COMMAND_ACTION_PACKAGE = packageName;
   });
 
+  program.on('option:customOption', () => {
+    const { customOption } = program.opts() || {};
+    const options = customOption.split(',');
+    options.forEach((option) => {
+      const [key, value] = option.split('=');
+      process.env[key] = value;
+    });
+  });
+
+  // 未知命令监听
+  program.on('command:*', (obj) => {
+    const availableCommands = program.commands.map((cmd) => cmd.name());
+    log.error(colors.red(`未知的命令：${obj[0]}`));
+    if (availableCommands.length > 0) {
+      log.info(colors.white(`可用命令：${availableCommands.join(',')}`));
+    }
+  });
+
   program.parse(process.argv);
+
+  if (program.args && program.args.length < 1) {
+    program.outputHelp();
+  }
 }
 
 async function core() {

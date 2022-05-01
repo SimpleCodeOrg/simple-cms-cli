@@ -31,11 +31,15 @@ class InitCommand extends Command {
   }
 
   async exec() {
-    await this.getTemplateList();
-    await this.emptyDir();
-    await this.getProjectInfo();
-    await this.downloadTemplate();
-    await this.installTemplate();
+    try {
+      await this.getTemplateList();
+      await this.emptyDir();
+      await this.getProjectInfo();
+      await this.downloadTemplate();
+      await this.installTemplate();
+    } catch (error) {
+      log.error(error.message);
+    }
   }
 
   async getTemplateList() {
@@ -63,7 +67,7 @@ class InitCommand extends Command {
           },
         ]);
         if (!ifContinue) {
-          return;
+          throw new Error('项目初始化失败');
         }
       }
 
@@ -77,7 +81,7 @@ class InitCommand extends Command {
       ]);
 
       if (!confirmDelete) {
-        return;
+        throw new Error('项目初始化失败');
       }
       fs.emptyDirSync(localPath);
     }
