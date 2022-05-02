@@ -6,7 +6,7 @@ const inquirer = require('inquirer');
 const terminalLink = require('terminal-link');
 
 const log = require('@simple.code/cms-cli-log');
-const { readFile, writeFile } = require('@simple.code/cms-cli-utils');
+const { readFile, writeFile, spinnerStart } = require('@simple.code/cms-cli-utils');
 
 const Github = require('./Github');
 const Gitee = require('./Gitee');
@@ -37,6 +37,7 @@ class Git {
     this.orgs = null;
     this.login = null; // 远程仓库登录名
     this.owner = null; // 远程仓库类型 个人/组织
+    this.repo = null; // 远程仓库对象
     this.refreshServer = refreshServer;
     this.refreshToken = refreshToken;
     this.refreshOwner = refreshOwner;
@@ -171,12 +172,38 @@ class Git {
     this.owner = owner;
   }
 
+  async checkRepo() {
+    let repo = await this.gitServer.getRepo(this.login, this.name);
+    if (!repo) {
+      const spinner = spinnerStart('开始创建远程仓库...');
+      try {
+        if (this.owner === GIT_OWNER_USER) {
+          repo = await this.gitServer.createRepo(this.name);
+        } else {
+          await this.gitServer.createOrgRepo(this.name, this.login);
+        }
+      } catch (error) {
+        throw new Error('远程仓库创建失败');
+      } finally {
+        spinner.stop(true);
+      }
+      if (repo) {
+        log.success('远程仓库创建成功');
+        this.repo = repo;
+      }
+    } else {
+      log.success('远程仓库信息获取成功');
+      this.repo = repo;
+    }
+  }
+
   async prepare() {
     this.checkHomePath();
     await this.checkGitServer();
     await this.checkGitToken();
     await this.getUserAndOrgs();
     await this.checkGitOwner();
+    await this.checkRepo(); // 校验并创建远程仓库
   }
 
   init() {

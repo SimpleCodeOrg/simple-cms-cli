@@ -43,6 +43,10 @@ class GitServer {
   getTokenUrl() {
     error('getTokenUrl');
   }
+
+  getRepo() {
+    error('getRepo');
+  }
 }
 
 module.exports = GitServer;

@@ -20,7 +20,7 @@ class PublishCommand extends Command {
       await this.prepare();
       const git = new Git(this.projectInfo, this.options);
       await git.prepare();
-      git.init();
+      await git.init();
       const endTime = new Date().getTime();
       log.info('本次发布耗时：', `${Math.floor((endTime - startTime) / 1000)}秒`);
     } catch (error) {

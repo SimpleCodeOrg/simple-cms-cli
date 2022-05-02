@@ -24,6 +24,16 @@ class GithubRequest {
       method: 'get',
     });
   }
+
+  post(url, data) {
+    return request({
+      url,
+      data: {
+        ...data,
+      },
+      method: 'post',
+    });
+  }
 }
 
 module.exports = GithubRequest;

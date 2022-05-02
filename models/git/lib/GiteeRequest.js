@@ -17,6 +17,17 @@ class GiteeRequest {
       method: 'get',
     });
   }
+
+  post(url, data) {
+    return request({
+      url,
+      data: {
+        ...data,
+        access_token: this.token,
+      },
+      method: 'post',
+    });
+  }
 }
 
 module.exports = GiteeRequest;

@@ -16,7 +16,9 @@ class Github extends GitServer {
   }
 
   getUser() {
-    return this.request.get('/user');
+    return this.request.get('/user').catch((e) => {
+      console.log(e);
+    });
   }
 
   getOrgs() {
@@ -27,8 +29,23 @@ class Github extends GitServer {
     super.setToken(token);
     this.request = new GithubRequest(token);
   }
+
+  getRepo(login, name) {
+    return this.request.get(`/repos/${login}/${name}`)
+      .catch((res) => {
+        if (res.response.status === 404) {
+          return null;
+        }
+        return Promise.reject(res);
+      });
+  }
+
+  // 创建个人仓库
+  createRepo(name) {
+    return this.request.post('/user/repos', { name });
+  }
 }
 
 module.exports = Github;
 
-// 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
+// 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

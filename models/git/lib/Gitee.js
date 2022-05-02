@@ -27,6 +27,35 @@ class Gitee extends GitServer {
   getOrgs() {
     return this.request.get('/user/orgs', { page: 1, per_page: 100, admin: false });
   }
+
+  getRepo(login, name) {
+    return this.request.get(`/repos/${login}/${name}`)
+      .catch((res) => {
+        if (res.response.status === 404) {
+          return null;
+        }
+        return Promise.reject(res);
+      });
+  }
+
+  // 创建个人仓库
+  createRepo(name) {
+    return this.request.post('/user/repos', { name });
+  }
+
+  // 获取组织的某个仓库
+  getOrgRepo(org) {
+    return this.request.get(`/orgs/${org}/repos`)
+      .catch((res) => {
+        if (res.response.status === 404) {
+          return null;
+        }
+        return Promise.reject(res);
+      });
+  }
+
+  // 创建组织仓库
+  createOrgRepo() {}
 }
 
 module.exports = Gitee;
