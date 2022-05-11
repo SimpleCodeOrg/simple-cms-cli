@@ -81,6 +81,8 @@ function registerCommand() {
     .option('--refreshServer', '是否强制更新远程仓库')
     .option('--refreshToken', '是否强制更新仓库 token')
     .option('--refreshOwner', '是否强制更新远程仓库类型')
+    .option('--buildCmd <buildCmd>', '自定义 build 命令')
+    .option('--prod', '是否为正式发布')
     .action(exec);
 
   // 开启debug

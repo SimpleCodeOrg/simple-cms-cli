@@ -15,6 +15,10 @@ class Gitee extends GitServer {
     return 'https://gitee.com/profile/personal_access_tokens';
   }
 
+  getSSHKeysUrl = () => 'https://gitee.com/profile/sshkeys';
+
+  getSSHKeysHelpUrl = () => 'https://gitee.com/help/articles/4191';
+
   setToken(token) {
     super.setToken(token);
     this.request = new GiteeRequest(token);
@@ -43,19 +47,14 @@ class Gitee extends GitServer {
     return this.request.post('/user/repos', { name });
   }
 
-  // 获取组织的某个仓库
-  getOrgRepo(org) {
-    return this.request.get(`/orgs/${org}/repos`)
-      .catch((res) => {
-        if (res.response.status === 404) {
-          return null;
-        }
-        return Promise.reject(res);
-      });
+  // 创建组织仓库
+  createOrgRepo(name, org) {
+    return this.request.post(`/orgs/${org}/repos`, { name });
   }
 
-  // 创建组织仓库
-  createOrgRepo() {}
+  getRemote(login, name) {
+    return `git@gitee.com:${login}/${name}.git`;
+  }
 }
 
 module.exports = Gitee;

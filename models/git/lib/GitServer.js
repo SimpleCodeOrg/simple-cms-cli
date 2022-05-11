@@ -47,6 +47,14 @@ class GitServer {
   getRepo() {
     error('getRepo');
   }
+
+  getSSHKeysUrl() {
+    error('getSSHKeysUrl');
+  }
+
+  getSSHKeysHelpUrl() {
+    error('getSSHKeysHelpUrl');
+  }
 }
 
 module.exports = GitServer;

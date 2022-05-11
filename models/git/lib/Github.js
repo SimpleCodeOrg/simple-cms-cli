@@ -15,10 +15,12 @@ class Github extends GitServer {
     return 'https://github.com/settings/tokens';
   }
 
+  getSSHKeysUrl = () => 'https://github.com/settings/keys';
+
+  getSSHKeysHelpUrl = () => 'https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/connecting-to-github-with-ssh';
+
   getUser() {
-    return this.request.get('/user').catch((e) => {
-      console.log(e);
-    });
+    return this.request.get('/user');
   }
 
   getOrgs() {
@@ -43,6 +45,15 @@ class Github extends GitServer {
   // 创建个人仓库
   createRepo(name) {
     return this.request.post('/user/repos', { name });
+  }
+
+  // 创建组织仓库;
+  createOrgRepo(name, org) {
+    return this.request.post(`/orgs/${org}/repos`, { name });
+  }
+
+  getRemote(login, name) {
+    return `git@github.com:${login}/${name}.git`;
   }
 }
 

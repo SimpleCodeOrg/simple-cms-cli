@@ -1,5 +1,5 @@
 {
-  "name": "@simple.code/cms-cli-git",
+  "name": "@simple.code/cms-cli-cloudbuild",
   "version": "0.0.5",
   "description": "> TODO: description",
   "author": "戴鹏鹏 <pengpeng.dai@china.zhaogang.com>",
@@ -28,14 +28,6 @@
   },
   "dependencies": {
     "@simple.code/cms-cli-log": "file:../../utils/log",
-    "@simple.code/cms-cli-request": "file:../../utils/request",
-    "@simple.code/cms-cli-utils": "file:../../utils/utils",
-    "@simple.code/cms-cli-cloudbuild": "file:../cloudbuild",
-    "fs-extra": "^10.1.0",
-    "inquirer": "^8.2.2",
-    "semver": "^7.3.7",
-    "simple-git": "^3.7.1",
-    "terminal-link": "^2.1.1",
-    "user-home": "^3.0.0"
+    "socket.io-client": "^2.4.0"
   }
 }
